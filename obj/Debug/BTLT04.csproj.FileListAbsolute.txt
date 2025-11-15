@@ -1,0 +1,11 @@
+C:\Users\dinhq\source\repos\BTLT04\bin\Debug\BTLT04.exe.config
+C:\Users\dinhq\source\repos\BTLT04\bin\Debug\BTLT04.exe
+C:\Users\dinhq\source\repos\BTLT04\bin\Debug\BTLT04.pdb
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.csproj.AssemblyReference.cache
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.Properties.Resources.resources
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.csproj.GenerateResource.cache
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.csproj.CoreCompileInputs.cache
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.exe
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.pdb
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.exe.config
+C:\Users\dinhq\source\repos\BTLT04\obj\Debug\BTLT04.Form1.resources
