@@ -21,7 +21,7 @@ namespace BTLT5
         public int index;
         public Charactor()
         {
-            sprite = new Bitmap("Sasuke.png");
+            sprite = new Bitmap("Sprite/Sasuke.png");
             index = 0;
             move = true;
         }
