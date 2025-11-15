@@ -21,7 +21,7 @@ namespace BTLT5
         public int index;
         public Charactor()
         {
-            sprite = new Bitmap("Sasuke.png");
+            sprite = new Bitmap("./Sprite/Sasuke.png");
             index = 0;
             move = true;
         }
@@ -60,10 +60,10 @@ namespace BTLT5
             move = leftPressed || rightPressed || upPressed || downPressed;
             if (move)
             {
-                Column = index % 4;
+                Column = index % 8;
                 g.DrawImage(sprite, x, y, new Rectangle(Column * 48, Row * 64, 48, 64), GraphicsUnit.Pixel);
                 index++;
-                if (index >= 4)
+                if (index >= 8)
                 {
                     index = 1;
                 }
