@@ -18,23 +18,48 @@ namespace BTLT5
 
         // --- Thuộc tính của riêng quả cầu lửa này ---
         public Point Position { get; private set; }
-        public int Speed { get; private set; }
         public bool IsActive { get; set; } // Đánh dấu để xóa
+
+        private int _speedMagnitude = 20; // Độ lớn tốc độ (luôn dương)
+        private int _velocityX;           // Tốc độ di chuyển X (có thể âm)
+        private int _velocityY;           // Tốc độ di chuyển Y (có thể âm)
+        
+        private int _directionRow; // 0=Xuống, 1=Trái, 2=Phải, 3=Lên
 
         private int _currentFrameIndex;
         private int _frameCount = 0;
         private Size _frameSize;
 
-        public Chidori(Point startPosition)
+        public Chidori(Point startPosition, int directionRow)
         {
             this.Position = startPosition;
-            this.Speed = 15; // Tốc độ di chuyển (pixel / tick)
             this.IsActive = true;
             this._currentFrameIndex = 0;
+            this._frameCount = 0;
+            this._directionRow = directionRow; // Lưu lại hướng
 
-            if (_animationFrames != null)
+            this._velocityX = 0;
+            this._velocityY = 0;       
+
+            switch (directionRow)
             {
-                this._frameSize = _animationFrames[0].Size;
+                case 0: // Hướng xuống (Down)
+                    _velocityY = _speedMagnitude;
+                    break;
+                case 1: // Hướng trái (Left)
+                    _velocityX = -_speedMagnitude;
+                    break;
+                case 2: // Hướng phải (Right)
+                    _velocityX = _speedMagnitude;
+                    break;
+                case 3: // Hướng lên (Up)
+                    _velocityY = -_speedMagnitude;
+                    break;
+            }
+
+            if (_animationFrames != null && _animationFrames.Count > 0)
+            {
+                _frameSize = _animationFrames[0].Size;
             }
         }
 
@@ -64,24 +89,39 @@ namespace BTLT5
 
         public Rectangle GetBoundingBox()
         {
-            return new Rectangle(this.Position, this._frameSize);
+            // Vị trí vẽ thực tế (Vị trí Logic - Offset)
+            int hitboxX = Position.X; //- _visualOffsetX;
+            int hitboxY = Position.Y; //- _visualOffsetY;
+
+            // Nếu bay Lên/Xuống, hitbox (hình chữ nhật) phải
+            // xoay 90 độ, tức là đổi width và height
+            if (_directionRow == 0 || _directionRow == 3) // Lên hoặc Xuống
+            {
+                // (QUAN TRỌNG) Đổi chỗ Width và Height
+                return new Rectangle(hitboxX, hitboxY, this._frameSize.Height, this._frameSize.Width);
+            }
+            else // Trái hoặc Phải
+            {
+                return new Rectangle(hitboxX, hitboxY, this._frameSize.Width, this._frameSize.Height);
+            }
         }
 
-        public void Update(int screenWidth)
+        public void Update(int screenWidth, int screenHeight)
         {
-            // 1. Di chuyển quả cầu lửa
-            // Giả sử player luôn quay mặt sang phải
-            Position = new Point(Position.X + Speed, Position.Y);
+            // 1. Di chuyển bằng tốc độ có hướng (X và Y)
+            Position = new Point(Position.X + _velocityX, Position.Y + _velocityY);
 
-            // 2. Kiểm tra xem có bay ra khỏi màn hình không
-            if (Position.X > screenWidth)
+            // 2. Kiểm tra bay ra khỏi màn hình (cả 4 cạnh)
+            int drawX = Position.X; //- _visualOffsetX;
+            int drawY = Position.Y; //- _visualOffsetY;
+
+            if (drawX > screenWidth || drawX < -_frameSize.Width ||
+                drawY > screenHeight || drawY < -_frameSize.Height)
             {
                 IsActive = false; // Đánh dấu để xóa
             }
 
-            // 3. Cập nhật animation
-            // Dùng 1 bộ đếm static chung để tất cả quả cầu lửa
-            // có animation đồng bộ và tiết kiệm tài nguyên
+            // 3. Cập nhật animation (Logic này đã đúng)
             _frameCount++;
             if (_frameCount >= _animationSpeed)
             {
@@ -102,16 +142,52 @@ namespace BTLT5
             // Lấy frame animation hiện tại
             Rectangle sourceRect = _animationFrames[_currentFrameIndex];
 
-            // Vị trí vẽ
-            Rectangle destRect = new Rectangle(Position.X, Position.Y, sourceRect.Width, sourceRect.Height);
+            // Tính toán vị trí VẼ THỰC TẾ (Vị trí Logic - Offset)
+            int drawX = Position.X; //- _visualOffsetX;
+            int drawY = Position.Y; //- _visualOffsetY;
+            int w = sourceRect.Width;
+            int h = sourceRect.Height;
 
-            // Vẽ frame đó từ sprite sheet lên màn hình
-            g.DrawImage(
-                _spriteSheet,   // Ảnh nguồn (lớn)
-                destRect,       // Vị trí đích (trên Form)
-                sourceRect,     // Vị trí nguồn (trên file sheet)
-                GraphicsUnit.Pixel
-            );
+            int centerX = drawX + w / 2;
+            int centerY = drawY + h / 2;
+
+            System.Drawing.Drawing2D.GraphicsState state = g.Save();
+            try
+            {
+                // 2. Di chuyển gốc tọa độ (0,0) của Graphics
+                // đến TÂM của sprite
+                g.TranslateTransform(centerX, centerY);
+
+                // 3. Xoay Graphics dựa trên hướng
+                switch (_directionRow)
+                {
+                    case 0: // Xuống
+                        g.RotateTransform(90); // Xoay 90 độ
+                        break;
+                    case 1: // Trái
+                        g.RotateTransform(180); // Xoay 180 độ (lật ngược)
+                        break;
+                    case 3: // Lên
+                        g.RotateTransform(-90); // Xoay -90 độ
+                        break;
+                        // case 2 (Phải) không cần làm gì, vì sprite gốc đã quay phải
+                }
+
+                // 4. Vẽ sprite tại gốc tọa độ MỚI
+                // (Tâm của sprite giờ là (0,0) nên ta phải vẽ từ (-w/2, -h/2))
+                g.DrawImage(
+                    _spriteSheet,
+                    new Rectangle(-w / 2, -h / 2, w, h), // Vẽ tại tâm (0,0)
+                    sourceRect,
+                    GraphicsUnit.Pixel
+                );
+            }
+            finally
+            {
+                // 5. Khôi phục lại trạng thái Graphics như cũ
+                // Dù có lỗi hay không, bước này CỰC KỲ QUAN TRỌNG
+                g.Restore(state);
+            }
         }
-    }
+    }    
 }

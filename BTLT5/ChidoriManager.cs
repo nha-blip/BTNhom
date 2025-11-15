@@ -32,22 +32,22 @@ namespace BTLT5
         /// <summary>
         /// Tạo 1 quả cầu lửa mới (gọi khi nhấn phím 'A')
         /// </summary>
-        public void Spawn(Point startPosition)
+        public void Spawn(Point startPosition, int row)
         {
             if (_chidoriSheet == null) return;
-            Chidori newChidori = new Chidori(startPosition);
+            Chidori newChidori = new Chidori(startPosition, row);
             _chidoris.Add(newChidori);
         }
 
         /// <summary>
         /// Cập nhật tất cả quả cầu lửa (gọi mỗi tick của game)
         /// </summary>
-        public void UpdateAll(int screenWidth)
+        public void UpdateAll(int screenWidth, int screenHeight)
         {
             // Cập nhật từng quả cầu lửa
             foreach (var chidori in _chidoris)
             {
-                chidori.Update(screenWidth);
+                chidori.Update(screenWidth, screenHeight);
             }
 
             // Xóa tất cả các quả cầu lửa đã bị đánh dấu IsActive = false
