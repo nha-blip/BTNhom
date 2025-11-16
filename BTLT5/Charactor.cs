@@ -74,12 +74,16 @@ namespace BTLT5
                 g.DrawImage(sprite, x, y, new Rectangle(0, Row * 64, 48, 64), GraphicsUnit.Pixel);
             }
         }
-        public void Update()
+        public void Update(int width,int height)
         {
-            if (leftPressed) x -= 5;
-            if (rightPressed) x += 5;
-            if (upPressed) y -= 5;
-            if (downPressed) y += 5;
+            if (leftPressed && x>0) x -= 5;
+            if (rightPressed && x<width-48) x += 5;
+            if (upPressed && y>0) y -= 5;
+            if (downPressed && y<height-64) y += 5;
+        }
+        public Rectangle GetBounding()
+        {
+            return new Rectangle(x, y, 48, 64);
         }
     }
 }

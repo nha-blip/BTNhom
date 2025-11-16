@@ -142,7 +142,7 @@ namespace BTLT5
             {
                 monster.Update(player.x, player.y);
             }
-            player.Update();
+            player.Update(ClientSize.Width,ClientSize.Height);
             Render();
         }
 
