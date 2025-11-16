@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BTLT5.Properties
+namespace BTLT04.Properties
 {
 
 
