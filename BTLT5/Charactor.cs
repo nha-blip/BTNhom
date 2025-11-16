@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace BTLT5
 {
@@ -19,6 +20,9 @@ namespace BTLT5
         public int x = 10, y = 50;
         public bool move;
         public int index;
+
+        private const int FrameWidth = 48;
+        private const int FrameHeight = 64;
         public Charactor()
         {
             sprite = new Bitmap("./Sprite/Sasuke.png");
@@ -27,12 +31,16 @@ namespace BTLT5
         }
         public void KeyUp(Keys key)
         {
-            leftPressed = false;
-            rightPressed = false;
-            upPressed = false;
-            downPressed = false;
+            if (key == Keys.Left)
+                leftPressed = false;
+            if (key == Keys.Right)
+                rightPressed = false;
+            if (key == Keys.Up)
+                upPressed = false;
+            if (key == Keys.Down)
+                downPressed = false;
         }
-        public void KeyDow(Keys key)
+        public void KeyDown(Keys key)
         {
             if (key == Keys.Left)
             {
@@ -84,6 +92,11 @@ namespace BTLT5
         public Rectangle GetBounding()
         {
             return new Rectangle(x, y, 48, 64);
+        }
+
+        public Point GetAttackSpawnPoint()
+        {
+            return new Point(x - (FrameWidth / 2), y - (FrameHeight / 2));
         }
     }
 }

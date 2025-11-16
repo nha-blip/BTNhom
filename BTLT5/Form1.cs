@@ -62,16 +62,16 @@ namespace BTLT5
         }
         private void GameTimer_Tick(object sender, EventArgs e)
         {
-            _chidoriManager.UpdateAll(this.ClientSize.Width);
+            _chidoriManager.UpdateAll(this.ClientSize.Width, this.ClientSize.Height);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            player.KeyDow(e.KeyCode);
+            player.KeyDown(e.KeyCode);
             if (e.KeyCode == Keys.A)
             {
                 // Giả sử vị trí xuất hiện là (50, 100)
-                _chidoriManager.Spawn(new Point(50, 100));
+                _chidoriManager.Spawn(player.GetAttackSpawnPoint(), player.Row);
             }
 
         }
