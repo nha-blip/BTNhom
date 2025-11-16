@@ -36,3 +36,4 @@ C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.exe
 C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.pdb
 C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\bin\Debug\Sprite\Sakura.png
 C:\Users\dinhq\source\repos\BTNhom\BTLT5\bin\Debug\Sprite\Sakura.png
+D:\NHA\IT008_Lập trình trực quan\test\BTNhom\BTLT5\bin\Debug\Sprite\Sakura.png

@@ -49,7 +49,7 @@ namespace BTLT5
 
             // 4. Thiết lập Game Loop DUY NHẤT
             _gameTimer = new Timer();
-            _gameTimer.Interval = 16; // ~60 FPS
+            _gameTimer.Interval = 100; // ~60 FPS
             _gameTimer.Tick += GameTimer_Tick; // <--- Hàm Tick DUY NHẤT
             _gameTimer.Start();
 
