@@ -16,9 +16,9 @@ namespace BTLT5
         public Bitmap backBuffer;
         public Graphics g;
         public Charactor player;
-        public List<Monster> monsters;
         public Timer timer;
 
+        private MonstersManager monstersManager;
         private int spawnInterval = 50;
         private int spawnCounter = 0;
         Random random;
@@ -30,7 +30,6 @@ namespace BTLT5
             InitializeComponent();
 
             player = new Charactor();
-            monsters = new List<Monster>();
 
             // Components
             backBuffer = new Bitmap(ClientSize.Width, ClientSize.Height);
@@ -39,8 +38,9 @@ namespace BTLT5
             timer.Interval = 100;
             timer.Enabled = true;
             timer.Tick += timer_Tick;
+
             random = new Random();
-            
+            monstersManager = new MonstersManager(random);
 
             this.DoubleBuffered = true;
             _chidoriManager = new ChidoriManager();
@@ -75,45 +75,6 @@ namespace BTLT5
             }
 
         }
-
-        // Monster spawn
-        private void spawnMonster()
-        {
-            int edge = random.Next(4);
-            int x, y;
-
-            switch (edge)
-            {
-                // Top edge spawn
-                case 0:
-                    x = random.Next(ClientSize.Width);
-                    y = -64;
-                    break;
-                // Left edge spawn
-                case 1:
-                    x = -48;
-                    y = random.Next(ClientSize.Height);
-                    break;
-                // Right edge spawn
-                case 2:
-                    x = ClientSize.Width;
-                    y = random.Next(ClientSize.Height);
-                    break;
-                // Bottom edge spawn
-                case 3:
-                    x = random.Next(ClientSize.Width);
-                    y = ClientSize.Height;
-                    break;
-                default:
-                    x = 0;
-                    y = 0;
-                    break;
-            }
-
-            Monster monster = new Monster(x, y);
-            monsters.Add(monster);
-        }
-
         public void Render()
         {
             Graphics g1 = Graphics.FromImage(backBuffer);
@@ -121,10 +82,7 @@ namespace BTLT5
 
 
             player.Draw(g1);
-            foreach (Monster monster in monsters)
-            {
-                monster.Draw(g1);
-            }
+            monstersManager.DrawAll(g1);
             _chidoriManager.DrawAll(g1);
             g.DrawImageUnscaled(backBuffer, 0, 0);
             g1.Dispose();
@@ -134,19 +92,13 @@ namespace BTLT5
             spawnCounter++;
             if (spawnCounter >= spawnInterval)
             {
-                spawnMonster();
+                monstersManager.spawnMonster(ClientSize.Width, ClientSize.Height);
                 spawnCounter = 0;
             }
 
-            foreach (Monster monster in monsters)
-            {
-                monster.Update(player.x, player.y);
-            }
+            monstersManager.UpdateAll(player.x, player.y);
             player.Update(ClientSize.Width,ClientSize.Height);
             Render();
         }
-
-        
     }
-
 }

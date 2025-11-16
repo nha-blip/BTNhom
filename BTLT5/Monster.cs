@@ -16,6 +16,7 @@ namespace BTLT5
         public int x, y;
         public int index;
         public int speed {  get; private set; }
+        public bool isDead { get; private set; } = false;
 
         private const int FRAME_WIDTH = 48;
         private const int FRAME_HEIGHT = 64;
@@ -33,6 +34,7 @@ namespace BTLT5
             index = 0;
             speed = initialSpeed;
         }
+        public void Die() { isDead = true; }
         public void Update(int targetX, int targetY)
         {
             int dx = x - targetX;
