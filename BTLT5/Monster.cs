@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
+using System.Windows.Forms;
 
 namespace BTLT5
 {
     public class Monster
     {
-        public Bitmap sprite;
+        public static Bitmap sprite;
         public int Column, Row;
         public int x, y;
         public int index;
         public int speed {  get; private set; }
+        public bool IsAlive { get; private set; } = true;
 
         private const int FRAME_WIDTH = 48;
         private const int FRAME_HEIGHT = 64;
@@ -25,14 +27,21 @@ namespace BTLT5
         private const int WALK_RIGHT_ROW = 2;
         private const int WALK_UP_ROW = 3;
 
+        public static void LoadContent()
+        {
+            // Tải từ Resources
+            sprite = Properties.Resources.Sakura;
+            
+        }
         public Monster(int initialX, int initialY, int initialSpeed = 3)
         {
             x = initialX;
             y = initialY;
-            sprite = new Bitmap("Sprite/Sakura.png");
+            
             index = 0;
             speed = initialSpeed;
         }
+        public void Die() { IsAlive = false; }
         public void Update(int targetX, int targetY)
         {
             int dx = x - targetX;

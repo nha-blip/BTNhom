@@ -22,3 +22,17 @@ C:\Users\dinhq\source\repos\BTNhom\BTLT5\obj\Debug\BTLT5.csproj.GenerateResource
 C:\Users\dinhq\source\repos\BTNhom\BTLT5\obj\Debug\BTLT5.csproj.CoreCompileInputs.cache
 C:\Users\dinhq\source\repos\BTNhom\BTLT5\obj\Debug\BTLT5.exe
 C:\Users\dinhq\source\repos\BTNhom\BTLT5\obj\Debug\BTLT5.pdb
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\bin\Debug\Sprite\Sasuke.png
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\bin\Debug\BTLT5.exe.config
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\bin\Debug\BTLT5.exe
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\bin\Debug\BTLT5.pdb
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.csproj.AssemblyReference.cache
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.exe.config
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.Form1.resources
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.Properties.Resources.resources
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.csproj.GenerateResource.cache
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.exe
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\obj\Debug\BTLT5.pdb
+C:\Users\LENOVO\Source\Repos\BTNhom\BTLT5\bin\Debug\Sprite\Sakura.png
+C:\Users\dinhq\source\repos\BTNhom\BTLT5\bin\Debug\Sprite\Sakura.png

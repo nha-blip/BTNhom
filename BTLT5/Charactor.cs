@@ -17,17 +17,22 @@ namespace BTLT5
         public bool rightPressed = false;
         public bool upPressed = false;
         public bool downPressed = false;
-        public int x = 10, y = 50;
+        public int x, y;
         public bool move;
         public int index;
 
         private const int FrameWidth = 48;
         private const int FrameHeight = 64;
-        public Charactor()
+        public Charactor(int startX, int startY)
         {
-            sprite = new Bitmap("./Sprite/Sasuke.png");
+            this.x = startX;
+            this.y = startY;
+            
+            sprite = Properties.Resources.Sasuke;
+
             index = 0;
             move = true;
+            Row = 0;
         }
         public void KeyUp(Keys key)
         {
