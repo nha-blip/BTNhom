@@ -23,6 +23,11 @@ namespace BTLT5
 
         private const int FrameWidth = 48;
         private const int FrameHeight = 64;
+
+        private const int HurtboxWidth = 24;
+        private const int HurtboxHeight = 40;
+        private const int HurtboxOffsetX = 12;
+        private const int HurtboxOffsetY = 24;
         public Charactor(int startX, int startY)
         {
             this.x = startX;
@@ -96,7 +101,12 @@ namespace BTLT5
         }
         public Rectangle GetBounding()
         {
-            return new Rectangle(x, y, 48, 64);
+            return new Rectangle(
+                 this.x + HurtboxOffsetX,
+                 this.y + HurtboxOffsetY,
+                 HurtboxWidth,
+                 HurtboxHeight
+             );
         }
 
         public Point GetAttackSpawnPoint()

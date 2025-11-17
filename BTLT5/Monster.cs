@@ -21,6 +21,12 @@ namespace BTLT5
 
         private const int FRAME_WIDTH = 48;
         private const int FRAME_HEIGHT = 64;
+
+        private const int HurtboxWidth = 24;
+        private const int HurtboxHeight = 40;
+        private const int HurtboxOffsetX = (FRAME_WIDTH - HurtboxWidth) / 2;
+        private const int HurtboxOffsetY = FRAME_HEIGHT - HurtboxHeight;
+
         private const int ANIMATION_FRAMES = 8;
         private const int WALK_DOWN_ROW = 0;
         private const int WALK_LEFT_ROW = 1;
@@ -82,7 +88,12 @@ namespace BTLT5
         }
         public Rectangle GetBounds()
         {
-            return new Rectangle(x, y, FRAME_WIDTH, FRAME_HEIGHT);
+            return new Rectangle(
+                 this.x + HurtboxOffsetX,
+                 this.y + HurtboxOffsetY,
+                 HurtboxWidth,
+                 HurtboxHeight
+             );
         }
     }
 }

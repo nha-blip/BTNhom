@@ -20,9 +20,11 @@ namespace BTLT5
         private ChidoriManager _chidoriManager;
         private Timer _gameTimer; // <--- Game Loop DUY NHẤT
         private Random random;
+        private Timer endgame;
+        private int RemainTime;
 
         // Logic spawn quái vật
-        private int spawnInterval = 50; // 50 * 16ms = 800ms (nửa giây)
+        private int spawnInterval = 10; // 50 * 16ms = 800ms (nửa giây)
         private int spawnCounter = 0;
 
         public Form1()
@@ -53,8 +55,15 @@ namespace BTLT5
             _gameTimer.Tick += GameTimer_Tick; // <--- Hàm Tick DUY NHẤT
             _gameTimer.Start();
 
+            // 5. Thiết lập thời gian endgame
+            endgame = new Timer();
+            endgame.Interval = 1000;
+            endgame.Start();
+            endgame.Tick += endgame_Tick;
             // Bỏ tất cả code của 'timer' (100ms) cũ
             // Bỏ code 'backBuffer' và 'g = this.CreateGraphics()'
+            RemainTime = 120;
+            lblTime.Text=RemainTime.ToString();
         }
 
         /// <summary>
@@ -96,7 +105,7 @@ namespace BTLT5
         {
             // a. Va chạm Đạn vs Quái vật (GỌI HÀM BỊ THIẾU)
             // Cần cho MonstersManager một cách để lấy List<Monster>
-            _chidoriManager.CheckCollisions(monstersManager.Monsters);
+            lblScore.Text=_chidoriManager.CheckCollisions(monstersManager.Monsters).ToString();
 
             // b. Va chạm Người chơi vs Quái vật
             foreach (var monster in monstersManager.Monsters)
@@ -105,9 +114,17 @@ namespace BTLT5
                 {
                     // Trò chơi kết thúc
                     _gameTimer.Stop();
+                    endgame.Stop();
                     MessageBox.Show("GAME OVER!");
                     Application.Exit();
                     break;
+                }
+                else if (lblTime.Text == "0")
+                {
+                    endgame.Stop();
+                    _gameTimer.Stop();
+                    MessageBox.Show("Điểm số của bạn là "+ lblTime.Text);
+                    Application.Exit();
                 }
             }
         }
@@ -152,5 +169,11 @@ namespace BTLT5
         }
 
         // Bỏ hàm Render() cũ
+        private void endgame_Tick(object sender, EventArgs e)
+        {
+            RemainTime--;
+            lblTime.Text=RemainTime.ToString();
+            
+        }
     }
 }

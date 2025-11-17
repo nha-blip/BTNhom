@@ -12,9 +12,10 @@ namespace BTLT5
     {
         private List<Chidori> _chidoris;
         private Bitmap _chidoriSheet; // Ảnh sheet
-
+        public int score;
         public ChidoriManager()
-        { 
+        {
+            score = 0;
             _chidoris = new List<Chidori>();
         }
 
@@ -70,7 +71,7 @@ namespace BTLT5
         /// <summary>
         /// Hàm kiểm tra va chạm với quái vật
         /// </summary>
-        public void CheckCollisions(List<Monster> monsters)
+        public int CheckCollisions(List<Monster> monsters)
         {
             // Dùng vòng lặp for (thay vì foreach) 
             // để an toàn khi xóa đạn
@@ -89,13 +90,14 @@ namespace BTLT5
                         // Đã trúng!
                         chidori.IsActive = false; // Đạn biến mất
                         monster.Die();          // Quái vật chết
-
+                        score++;
                         // (Tùy chọn) Thoát vòng lặp
                         // nếu 1 đạn chỉ giết 1 quái
                         break;
                     }
                 }
             }
+            return score;
         }
     }
 }
