@@ -1,0 +1,30 @@
+﻿# Visual Studio
+.vs/
+.vscode/
+
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+
+# Logs
+*.log
+
+# Temporary files
+*.TMP
+*.temp
+
+# Visual Studio cache
+*.cache
+*.dbmdl
+
+# NuGet
+*.nupkg
+packages/
+
+# Backup
+*.bak
