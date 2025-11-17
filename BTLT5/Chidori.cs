@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace BTLT5
 {
@@ -70,10 +71,10 @@ namespace BTLT5
 
             // Kích thước frame bạn cung cấp
             int frameWidth = 106;
-            int frameHeight = 125;
+            int frameHeight = 48;
 
             // Hàng 4 (y = 3 * 125 = 375)
-            int rowY = 375;
+            int rowY = 420;
 
             // Frame 28 (Cột 1, x = 0)
             _animationFrames.Add(new Rectangle(0, rowY, frameWidth, frameHeight));
@@ -89,20 +90,25 @@ namespace BTLT5
 
         public Rectangle GetBoundingBox()
         {
-            // Vị trí vẽ thực tế (Vị trí Logic - Offset)
-            int hitboxX = Position.X; //- _visualOffsetX;
-            int hitboxY = Position.Y; //- _visualOffsetY;
+            // Lấy kích thước chuẩn (chưa xoay)
+            int w = _frameSize.Width;  // 106
+            int h = _frameSize.Height; // 48
 
-            // Nếu bay Lên/Xuống, hitbox (hình chữ nhật) phải
-            // xoay 90 độ, tức là đổi width và height
-            if (_directionRow == 0 || _directionRow == 3) // Lên hoặc Xuống
+            if (_directionRow == 0 || _directionRow == 3) // Lên hoặc Xuống (đã xoay)
             {
-                // (QUAN TRỌNG) Đổi chỗ Width và Height
-                return new Rectangle(hitboxX, hitboxY, this._frameSize.Height, this._frameSize.Width);
+                // Kích thước bị đảo (h, w)
+                // Tọa độ top-left là: (Tâm X - h/2, Tâm Y - w/2)
+                int hitboxX = Position.X - h / 2;
+                int hitboxY = Position.Y - w / 2;
+                return new Rectangle(hitboxX, hitboxY, h, w); // Dùng kích thước đã đảo
             }
-            else // Trái hoặc Phải
+            else // Trái hoặc Phải (chưa xoay hoặc xoay 180)
             {
-                return new Rectangle(hitboxX, hitboxY, this._frameSize.Width, this._frameSize.Height);
+                // Kích thước (w, h)
+                // Tọa độ top-left là: (Tâm X - w/2, Tâm Y - h/2)
+                int hitboxX = Position.X - w / 2;
+                int hitboxY = Position.Y - h / 2;
+                return new Rectangle(hitboxX, hitboxY, w, h);
             }
         }
 
@@ -143,20 +149,18 @@ namespace BTLT5
             Rectangle sourceRect = _animationFrames[_currentFrameIndex];
 
             // Tính toán vị trí VẼ THỰC TẾ (Vị trí Logic - Offset)
-            int drawX = Position.X; //- _visualOffsetX;
-            int drawY = Position.Y; //- _visualOffsetY;
             int w = sourceRect.Width;
             int h = sourceRect.Height;
 
-            int centerX = drawX + w / 2;
-            int centerY = drawY + h / 2;
+            int centerX = Position.X;
+            int centerY = Position.Y - h / 2;
 
             System.Drawing.Drawing2D.GraphicsState state = g.Save();
             try
             {
                 // 2. Di chuyển gốc tọa độ (0,0) của Graphics
                 // đến TÂM của sprite
-                g.TranslateTransform(centerX, centerY);
+                g.TranslateTransform(Position.X, Position.Y);
 
                 // 3. Xoay Graphics dựa trên hướng
                 switch (_directionRow)
@@ -181,6 +185,9 @@ namespace BTLT5
                     sourceRect,
                     GraphicsUnit.Pixel
                 );
+
+                g.DrawRectangle(Pens.Red, GetBoundingBox());
+                //g.DrawRectangle(Pens.Blue, new Rectangle(-w / 2, -h / 2, w, h));
             }
             finally
             {

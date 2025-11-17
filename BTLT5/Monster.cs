@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace BTLT5
 {
@@ -85,6 +86,9 @@ namespace BTLT5
         {
             Column = index % 4;
             g.DrawImage(sprite, x, y, new Rectangle(Column * FRAME_WIDTH, Row * FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT), GraphicsUnit.Pixel);
+
+            g.DrawRectangle(Pens.Red, GetBounds());
+            g.DrawRectangle(Pens.Blue, this.x, this.y, FRAME_WIDTH, FRAME_HEIGHT);
         }
         public Rectangle GetBounds()
         {

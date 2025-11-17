@@ -91,6 +91,9 @@ namespace BTLT5
                 index = 0;
                 g.DrawImage(sprite, x, y, new Rectangle(0, Row * 64, 48, 64), GraphicsUnit.Pixel);
             }
+
+            g.DrawRectangle(Pens.Blue, this.x, this.y, FrameWidth, FrameHeight);
+            g.DrawRectangle(Pens.Red, GetBounding());
         }
         public void Update(int width,int height)
         {
@@ -111,7 +114,7 @@ namespace BTLT5
 
         public Point GetAttackSpawnPoint()
         {
-            return new Point(x - (FrameWidth / 2), y - (FrameHeight / 2));
+            return new Point(x + (FrameWidth / 2), y + (FrameHeight / 2));
         }
     }
 }
