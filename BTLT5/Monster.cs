@@ -87,8 +87,8 @@ namespace BTLT5
             Column = index % 4;
             g.DrawImage(sprite, x, y, new Rectangle(Column * FRAME_WIDTH, Row * FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT), GraphicsUnit.Pixel);
 
-            g.DrawRectangle(Pens.Red, GetBounds());
-            g.DrawRectangle(Pens.Blue, this.x, this.y, FRAME_WIDTH, FRAME_HEIGHT);
+            //g.DrawRectangle(Pens.Red, GetBounds());
+            //g.DrawRectangle(Pens.Blue, this.x, this.y, FRAME_WIDTH, FRAME_HEIGHT);
         }
         public Rectangle GetBounds()
         {
