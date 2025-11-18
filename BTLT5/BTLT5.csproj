@@ -55,6 +55,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemsManager.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonstersManager.cs" />
     <Compile Include="Program.cs" />
@@ -86,6 +88,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sprite\chidori.png" />
+    <Content Include="Sprite\Clock.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sprite\Sakura.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

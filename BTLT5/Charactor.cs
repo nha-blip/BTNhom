@@ -28,6 +28,9 @@ namespace BTLT5
         private const int HurtboxHeight = 40;
         private const int HurtboxOffsetX = 12;
         private const int HurtboxOffsetY = 24;
+
+        private int _cooldownCounter = 0; // Biến đếm ngược
+        private int _cooldownLimit = 5;
         public Charactor(int startX, int startY)
         {
             this.x = startX;
@@ -101,6 +104,11 @@ namespace BTLT5
             if (rightPressed && x<width-48) x += 5;
             if (upPressed && y>0) y -= 5;
             if (downPressed && y<height-64) y += 5;
+
+            if (_cooldownCounter > 0)
+            {
+                _cooldownCounter--; // Giảm biến đếm mỗi lần update
+            }
         }
         public Rectangle GetBounding()
         {
@@ -115,6 +123,16 @@ namespace BTLT5
         public Point GetAttackSpawnPoint()
         {
             return new Point(x + (FrameWidth / 2), y + (FrameHeight / 2));
+        }
+
+        public bool CanShoot()
+        {
+            return _cooldownCounter <= 0;
+        }
+
+        public void TriggerCooldown()
+        {
+            _cooldownCounter = _cooldownLimit; // Đặt lại bộ đếm
         }
     }
 }
