@@ -25,11 +25,11 @@ namespace BTLT5
         private int RemainTime;
 
         // Logic spawn quái vật
-        private int monsterSpawnInterval = 10; // 50 * 16ms = 800ms (nửa giây)
+        private int monsterSpawnInterval = 15; // 50 * 16ms = 800ms (nửa giây)
         private int monsterSpawnCounter = 0;
 
         // Logic spawn item
-        private int itemSpawnInterval = 100;
+        private int itemSpawnInterval = 150;
         private int itemSpawnCounter = 0;
 
         public Form1()
@@ -144,6 +144,17 @@ namespace BTLT5
                     Application.Exit();
                 }
             }
+
+            foreach (var item in itemsManager.Items)
+            {
+                if (item.IsAlive && player.GetBounding().IntersectsWith(item.GetBounds()))
+                {
+                    // Thu thập item
+                    item.Die();
+                    RemainTime += 5; // Tăng thời gian thêm 5 giây
+                    lblTime.Text = RemainTime.ToString();
+                }
+            }
         }
 
         /// <summary>
@@ -160,9 +171,9 @@ namespace BTLT5
 
             // Vẽ mọi thứ
             player.Draw(g);
-            monstersManager.DrawAll(g);
-            _chidoriManager.DrawAll(g);
             itemsManager.DrawAll(g);
+            monstersManager.DrawAll(g);
+            _chidoriManager.DrawAll(g);            
 
             // Không cần 'g.DrawImageUnscaled(backBuffer, 0, 0)'
             // Vì DoubleBuffered=true đã tự làm việc đó
@@ -181,8 +192,14 @@ namespace BTLT5
             player.KeyDown(e.KeyCode);
             if (e.KeyCode == Keys.A)
             {
-                // Logic bắn (đã đúng)
-                _chidoriManager.Spawn(player.GetAttackSpawnPoint(), player.Row);
+                if (player.CanShoot())
+                {
+                    // 2. Bắn đạn
+                    _chidoriManager.Spawn(player.GetAttackSpawnPoint(), player.Row);
+
+                    // 3. Kích hoạt hồi chiêu (để chặn lần bắn tiếp theo ngay lập tức)
+                    player.TriggerCooldown();
+                }
             }
         }
 

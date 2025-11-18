@@ -11,13 +11,10 @@ namespace BTLT5
 {
     internal class Chidori
     {
-        // --- Tài nguyên dùng chung cho tất cả các quả cầu lửa ---
-        // (Static để tiết kiệm bộ nhớ, chỉ tải 1 lần)
         private static Bitmap _spriteSheet;
         private static List<Rectangle> _animationFrames;
-        private static int _animationSpeed = 4; // Cứ 3 tick game thì mới đổi frame
+        private static int _animationSpeed = 4; 
 
-        // --- Thuộc tính của riêng quả cầu lửa này ---
         public Point Position { get; private set; }
         public bool IsActive { get; set; } // Đánh dấu để xóa
 
