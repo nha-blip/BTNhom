@@ -18,14 +18,19 @@ namespace BTLT5
         public Charactor player;
         private MonstersManager monstersManager;
         private ChidoriManager _chidoriManager;
+        private ItemsManager itemsManager;
         private Timer _gameTimer; // <--- Game Loop DUY NHẤT
         private Random random;
         private Timer endgame;
         private int RemainTime;
 
         // Logic spawn quái vật
-        private int spawnInterval = 10; // 50 * 16ms = 800ms (nửa giây)
-        private int spawnCounter = 0;
+        private int monsterSpawnInterval = 10; // 50 * 16ms = 800ms (nửa giây)
+        private int monsterSpawnCounter = 0;
+
+        // Logic spawn item
+        private int itemSpawnInterval = 100;
+        private int itemSpawnCounter = 0;
 
         public Form1()
         {
@@ -39,10 +44,12 @@ namespace BTLT5
             random = new Random();
             monstersManager = new MonstersManager(random);
             _chidoriManager = new ChidoriManager();
+            itemsManager = new ItemsManager(random);
 
             // 2. Tải tài nguyên
             _chidoriManager.LoadContent();
             Monster.LoadContent();
+            Item.LoadContent();
 
             // 3. Thiết lập Form
             // Kích hoạt Double Buffering (Rất quan trọng để chống giật)
@@ -51,7 +58,7 @@ namespace BTLT5
 
             // 4. Thiết lập Game Loop DUY NHẤT
             _gameTimer = new Timer();
-            _gameTimer.Interval = 100; // ~60 FPS
+            _gameTimer.Interval = 50; // ~60 FPS
             _gameTimer.Tick += GameTimer_Tick; // <--- Hàm Tick DUY NHẤT
             _gameTimer.Start();
 
@@ -76,6 +83,7 @@ namespace BTLT5
             player.Update(ClientSize.Width, ClientSize.Height);
             monstersManager.UpdateAll(player.x, player.y);
             _chidoriManager.UpdateAll(this.ClientSize.Width, this.ClientSize.Height);
+            itemsManager.UpdateAll(this.ClientSize.Width, this.ClientSize.Height);
 
             // 2. KIỂM TRA VA CHẠM (Collision)
             HandleCollisions();
@@ -90,11 +98,18 @@ namespace BTLT5
         /// </summary>
         private void HandleSpawning()
         {
-            spawnCounter++;
-            if (spawnCounter >= spawnInterval)
+            monsterSpawnCounter++;
+            if (monsterSpawnCounter >= monsterSpawnInterval)
             {
                 monstersManager.spawnMonster(ClientSize.Width, ClientSize.Height);
-                spawnCounter = 0;
+                monsterSpawnCounter = 0;
+            }
+
+            itemSpawnCounter++;
+            if (itemSpawnCounter >= itemSpawnInterval)
+            {
+                itemsManager.spawnItem(ClientSize.Width, ClientSize.Height);
+                itemSpawnCounter = 0;
             }
         }
 
@@ -105,7 +120,9 @@ namespace BTLT5
         {
             // a. Va chạm Đạn vs Quái vật (GỌI HÀM BỊ THIẾU)
             // Cần cho MonstersManager một cách để lấy List<Monster>
-            lblScore.Text=_chidoriManager.CheckCollisions(monstersManager.Monsters).ToString();
+            lblScore.Text =_chidoriManager.CheckCollisions(monstersManager.Monsters).ToString();
+            int remainingTime = int.Parse(lblTime.Text);
+
 
             // b. Va chạm Người chơi vs Quái vật
             foreach (var monster in monstersManager.Monsters)
@@ -145,6 +162,7 @@ namespace BTLT5
             player.Draw(g);
             monstersManager.DrawAll(g);
             _chidoriManager.DrawAll(g);
+            itemsManager.DrawAll(g);
 
             // Không cần 'g.DrawImageUnscaled(backBuffer, 0, 0)'
             // Vì DoubleBuffered=true đã tự làm việc đó

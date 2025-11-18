@@ -186,7 +186,7 @@ namespace BTLT5
                     GraphicsUnit.Pixel
                 );
 
-                g.DrawRectangle(Pens.Red, GetBoundingBox());
+                //g.DrawRectangle(Pens.Red, GetBoundingBox());
                 //g.DrawRectangle(Pens.Blue, new Rectangle(-w / 2, -h / 2, w, h));
             }
             finally
