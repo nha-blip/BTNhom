@@ -88,13 +88,11 @@ namespace BTLT5
         public Rectangle GetBoundingBox()
         {
             // Lấy kích thước chuẩn (chưa xoay)
-            int w = _frameSize.Width;  // 106
-            int h = _frameSize.Height; // 48
+            int w = _frameSize.Width;  
+            int h = _frameSize.Height; 
 
             if (_directionRow == 0 || _directionRow == 3) // Lên hoặc Xuống (đã xoay)
-            {
-                // Kích thước bị đảo (h, w)
-                // Tọa độ top-left là: (Tâm X - h/2, Tâm Y - w/2)
+            {         
                 int hitboxX = Position.X - h / 2;
                 int hitboxY = Position.Y - w / 2;
                 return new Rectangle(hitboxX, hitboxY, h, w); // Dùng kích thước đã đảo
@@ -115,8 +113,8 @@ namespace BTLT5
             Position = new Point(Position.X + _velocityX, Position.Y + _velocityY);
 
             // 2. Kiểm tra bay ra khỏi màn hình (cả 4 cạnh)
-            int drawX = Position.X; //- _visualOffsetX;
-            int drawY = Position.Y; //- _visualOffsetY;
+            int drawX = Position.X; 
+            int drawY = Position.Y; 
 
             if (drawX > screenWidth || drawX < -_frameSize.Width ||
                 drawY > screenHeight || drawY < -_frameSize.Height)
@@ -124,7 +122,7 @@ namespace BTLT5
                 IsActive = false; // Đánh dấu để xóa
             }
 
-            // 3. Cập nhật animation (Logic này đã đúng)
+            // 3. Cập nhật animation
             _frameCount++;
             if (_frameCount >= _animationSpeed)
             {
@@ -145,7 +143,6 @@ namespace BTLT5
             // Lấy frame animation hiện tại
             Rectangle sourceRect = _animationFrames[_currentFrameIndex];
 
-            // Tính toán vị trí VẼ THỰC TẾ (Vị trí Logic - Offset)
             int w = sourceRect.Width;
             int h = sourceRect.Height;
 

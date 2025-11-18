@@ -12,20 +12,17 @@ namespace BTLT5
 {
     public partial class Form1 : Form
     {
-        // Bỏ 'public Bitmap backBuffer' và 'public Graphics g'
-        // Bỏ 'public Timer timer;'
-
         public Charactor player;
         private MonstersManager monstersManager;
         private ChidoriManager _chidoriManager;
         private ItemsManager itemsManager;
-        private Timer _gameTimer; // <--- Game Loop DUY NHẤT
+        private Timer _gameTimer; 
         private Random random;
         private Timer endgame;
         private int RemainTime;
 
         // Logic spawn quái vật
-        private int monsterSpawnInterval = 15; // 50 * 16ms = 800ms (nửa giây)
+        private int monsterSpawnInterval = 15; 
         private int monsterSpawnCounter = 0;
 
         // Logic spawn item
@@ -52,7 +49,7 @@ namespace BTLT5
             Item.LoadContent();
 
             // 3. Thiết lập Form
-            // Kích hoạt Double Buffering (Rất quan trọng để chống giật)
+            // Kích hoạt Double Buffering 
             this.DoubleBuffered = true;
             this.KeyPreview = true;
 
@@ -67,8 +64,7 @@ namespace BTLT5
             endgame.Interval = 1000;
             endgame.Start();
             endgame.Tick += endgame_Tick;
-            // Bỏ tất cả code của 'timer' (100ms) cũ
-            // Bỏ code 'backBuffer' và 'g = this.CreateGraphics()'
+
             RemainTime = 120;
             lblTime.Text=RemainTime.ToString();
         }
@@ -93,9 +89,6 @@ namespace BTLT5
             this.Invalidate();
         }
 
-        /// <summary>
-        /// Logic sinh quái vật
-        /// </summary>
         private void HandleSpawning()
         {
             monsterSpawnCounter++;
@@ -113,9 +106,6 @@ namespace BTLT5
             }
         }
 
-        /// <summary>
-        /// Logic xử lý tất cả va chạm
-        /// </summary>
         private void HandleCollisions()
         {
             // a. Va chạm Đạn vs Quái vật (GỌI HÀM BỊ THIẾU)
@@ -157,13 +147,8 @@ namespace BTLT5
             }
         }
 
-        /// <summary>
-        /// Hàm này tự động được gọi sau khi this.Invalidate()
-        /// Đây là nơi VẼ MỌI THỨ
-        /// </summary>
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            // Dùng 'e.Graphics' thay vì 'g' hay 'g1' tự tạo
             Graphics g = e.Graphics;
 
             // Xóa màn hình
@@ -174,13 +159,7 @@ namespace BTLT5
             itemsManager.DrawAll(g);
             monstersManager.DrawAll(g);
             _chidoriManager.DrawAll(g);            
-
-            // Không cần 'g.DrawImageUnscaled(backBuffer, 0, 0)'
-            // Vì DoubleBuffered=true đã tự làm việc đó
         }
-
-        // --- SỰ KIỆN BÀN PHÍM ---
-        // (Bỏ hàm Render() thủ công)
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
@@ -194,7 +173,7 @@ namespace BTLT5
             {
                 if (player.CanShoot())
                 {
-                    // 2. Bắn đạn
+                    // 2. Bắn 
                     _chidoriManager.Spawn(player.GetAttackSpawnPoint(), player.Row);
 
                     // 3. Kích hoạt hồi chiêu (để chặn lần bắn tiếp theo ngay lập tức)
@@ -203,12 +182,10 @@ namespace BTLT5
             }
         }
 
-        // Bỏ hàm Render() cũ
         private void endgame_Tick(object sender, EventArgs e)
         {
             RemainTime--;
-            lblTime.Text=RemainTime.ToString();
-            
+            lblTime.Text=RemainTime.ToString();           
         }
     }
 }
