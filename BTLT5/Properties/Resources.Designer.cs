@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BTLT04.Properties {
+namespace BTLT5.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace BTLT04.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BTLT04.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BTLT5.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,6 +66,26 @@ namespace BTLT04.Properties {
         internal static System.Drawing.Bitmap chidori {
             get {
                 object obj = ResourceManager.GetObject("chidori", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sakura {
+            get {
+                object obj = ResourceManager.GetObject("Sakura", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sasuke {
+            get {
+                object obj = ResourceManager.GetObject("Sasuke", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

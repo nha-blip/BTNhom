@@ -17,17 +17,27 @@ namespace BTLT5
         public bool rightPressed = false;
         public bool upPressed = false;
         public bool downPressed = false;
-        public int x = 10, y = 50;
+        public int x, y;
         public bool move;
         public int index;
 
         private const int FrameWidth = 48;
         private const int FrameHeight = 64;
-        public Charactor()
+
+        private const int HurtboxWidth = 24;
+        private const int HurtboxHeight = 40;
+        private const int HurtboxOffsetX = 12;
+        private const int HurtboxOffsetY = 24;
+        public Charactor(int startX, int startY)
         {
-            sprite = new Bitmap("./Sprite/Sasuke.png");
+            this.x = startX;
+            this.y = startY;
+            
+            sprite = Properties.Resources.Sasuke;
+
             index = 0;
             move = true;
+            Row = 0;
         }
         public void KeyUp(Keys key)
         {
@@ -81,6 +91,9 @@ namespace BTLT5
                 index = 0;
                 g.DrawImage(sprite, x, y, new Rectangle(0, Row * 64, 48, 64), GraphicsUnit.Pixel);
             }
+
+            g.DrawRectangle(Pens.Blue, this.x, this.y, FrameWidth, FrameHeight);
+            g.DrawRectangle(Pens.Red, GetBounding());
         }
         public void Update(int width,int height)
         {
@@ -91,12 +104,17 @@ namespace BTLT5
         }
         public Rectangle GetBounding()
         {
-            return new Rectangle(x, y, 48, 64);
+            return new Rectangle(
+                 this.x + HurtboxOffsetX,
+                 this.y + HurtboxOffsetY,
+                 HurtboxWidth,
+                 HurtboxHeight
+             );
         }
 
         public Point GetAttackSpawnPoint()
         {
-            return new Point(x - (FrameWidth / 2), y - (FrameHeight / 2));
+            return new Point(x + (FrameWidth / 2), y + (FrameHeight / 2));
         }
     }
 }

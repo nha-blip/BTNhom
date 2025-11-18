@@ -10,10 +10,8 @@ namespace BTLT5
 {
     internal class MonstersManager
     {
-        private List<Monster> monsters;
+        public List<Monster> monsters;
         private Random random;
-
-        public List<Monster> Monsters { get { return monsters; } }
 
         public MonstersManager(Random r)
         {
@@ -65,7 +63,7 @@ namespace BTLT5
 
         public void DrawAll(Graphics g)
         {
-            foreach(Monster monster in monsters)
+            foreach (Monster monster in monsters)
             {
                 monster.Draw(g);
             }
@@ -73,8 +71,8 @@ namespace BTLT5
 
         public void UpdateAll(int x, int y)
         {
-            monsters.RemoveAll(m => !m.IsAlive);
-            foreach(Monster monster in monsters)
+            monsters.RemoveAll(m => m.isDead);
+            foreach (Monster monster in monsters)
             {
                 monster.Update(x, y);
             }

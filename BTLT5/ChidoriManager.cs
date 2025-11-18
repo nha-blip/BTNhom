@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BTLT5
 {
@@ -11,9 +12,10 @@ namespace BTLT5
     {
         private List<Chidori> _chidoris;
         private Bitmap _chidoriSheet; // Ảnh sheet
-
+        public int score;
         public ChidoriManager()
-        { 
+        {
+            score = 0;
             _chidoris = new List<Chidori>();
         }
 
@@ -23,7 +25,7 @@ namespace BTLT5
         public void LoadContent()
         {
             // Tải ảnh từ file (bạn có thể dùng Properties.Resources)
-            _chidoriSheet = new Bitmap("./Sprite/chidori.png");
+            _chidoriSheet = Properties.Resources.chidori;
 
             // Gọi hàm static của DanLua để nạp tài nguyên
             Chidori.LoadContent(_chidoriSheet);
@@ -69,21 +71,33 @@ namespace BTLT5
         /// <summary>
         /// Hàm kiểm tra va chạm với quái vật
         /// </summary>
-        //public void CheckCollisions(List<QuaiVat> quaiVats)
-        //{
-        //    foreach (var fireball in _fireballs.Where(fb => fb.IsActive))
-        //    {
-        //        foreach (var monster in quaiVats.Where(m => m.IsAlive))
-        //        {
-        //            // Sử dụng IntersectsWith để kiểm tra va chạm
-        //            if (fireball.GetBoundingBox().IntersectsWith(monster.GetBoundingBox()))
-        //            {
-        //                // Nếu va chạm:
-        //                fireball.IsActive = false; // Đạn biến mất
-        //                monster.TakeDamage(1); // Quái vật mất máu (hoặc chết)
-        //            }
-        //        }
-        //    }
-        //}
+        public int CheckCollisions(List<Monster> monsters)
+        {
+            // Dùng vòng lặp for (thay vì foreach) 
+            // để an toàn khi xóa đạn
+            for (int i = _chidoris.Count - 1; i >= 0; i--)
+            {
+                Chidori chidori = _chidoris[i];
+                if (!chidori.IsActive) continue; // Bỏ qua đạn đã trúng
+
+                foreach (Monster monster in monsters)
+                {
+                    if (!monster.IsAlive) continue; // Bỏ qua quái đã chết
+
+                    // (QUAN TRỌNG) Đây là lúc kiểm tra!
+                    if (chidori.GetBoundingBox().IntersectsWith(monster.GetBounds()))
+                    {
+                        // Đã trúng!
+                        chidori.IsActive = false; // Đạn biến mất
+                        monster.Die();          // Quái vật chết
+                        score++;
+                        // (Tùy chọn) Thoát vòng lặp
+                        // nếu 1 đạn chỉ giết 1 quái
+                        break;
+                    }
+                }
+            }
+            return score;
+        }
     }
 }
